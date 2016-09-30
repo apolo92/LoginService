@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <style>
         @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
@@ -48,7 +49,7 @@
         }
         .form .message {
             margin: 15px 0 0;
-            color: #b3b3b3;
+            color: #EF3B3A;
             font-size: 12px;
         }
         .form .message a {
@@ -103,36 +104,32 @@
         }
     </style>
     <script type="text/javascript">
-        $(document).ready(function(){
-            $("button").click(function(){
-
-                $.ajax({
-                    type: 'POST',
-                    url: 'users/login',
-                    success: function(data) {
-                        alert(data);
-                        $("p").text(data);
-
-                    }
-                });
+        function foo () {
+            $.ajax({
+                data: JSON.stringify({
+                    username: $('#username').val(),
+                    password: $('#password').val()
+                }),
+                url:"http://localhost:8000/users/login", //the page containing php script
+                type: "POST", //request type
+                dataType: 'json',
+                error:function (request, status, error) {
+                    $("#incorrectMessage").show();
+                },
+                success:function(data){
+                    window.location.replace(data.loadPage)
+                }
             });
-        });
+        }
     </script>
     <body>
         <div class="login-page">
             <div class="form">
-                <form class="register-form">
-                    <input type="text" placeholder="name"/>
-                    <input type="password" placeholder="password"/>
-                    <input type="text" placeholder="email address"/>
-                    <button>create</button>
-                    <p class="message">Already registered? <a href="#">Sign In</a></p>
-                </form>
                 <form class="login-form">
-                    <input type="text" placeholder="username"/>
-                    <input type="password" placeholder="password"/>
-                    <button>login</button>
-                    <p class="message">Not registered? <a href="#">Create an account</a></p>
+                    <div class="message" id="incorrectMessage" hidden>Usuario o Contraseña incorrecta</div>
+                    <input type="text" id="username" placeholder="username"/>
+                    <input type="password" id="password" placeholder="password"/>
+                    <button type="button" onclick="foo()">login</button>
                 </form>
             </div>
         </div>
