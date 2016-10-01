@@ -1,9 +1,7 @@
 package com.test.web.domain.model;
 
-import com.test.web.domain.dto.UserDTO;
+import com.test.web.dto.UserDTO;
 import com.test.web.domain.model.constants.Roles;
-
-import javax.management.relation.Role;
 
 /**
  * Created by alejandro on 29/09/2016.

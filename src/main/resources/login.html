@@ -117,7 +117,8 @@
                     $("#incorrectMessage").show();
                 },
                 success:function(data){
-                    window.location.replace(data.loadPage)
+                    localStorage.setItem("tokenJWT",data.jwt);
+                    window.location.replace(data.loadPage +"?"+data.jwt);
                 }
             });
         }

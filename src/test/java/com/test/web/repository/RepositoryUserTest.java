@@ -2,8 +2,6 @@ package com.test.web.repository;
 
 import com.test.web.domain.Repository;
 import com.test.web.domain.model.UserLogin;
-import com.test.web.domain.model.UserRole;
-import com.test.web.domain.model.constants.Roles;
 import org.junit.Assert;
 import org.junit.Test;
 

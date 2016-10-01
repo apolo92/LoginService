@@ -1,34 +1,36 @@
 package com.test.web.domain;
 
 import com.google.gson.Gson;
-import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.org.apache.bcel.internal.util.ClassLoader;
-import com.test.web.domain.dto.UserDTO;
+import com.test.web.domain.issues.InvalidUsser;
+import com.test.web.dto.UserDTO;
 import com.test.web.domain.issues.LoginError;
 import com.test.web.domain.model.UserLogin;
 import com.test.web.domain.utils.ReadResoures;
-import com.test.web.repository.RepositoryUsers;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * Created by alejandro on 28/09/2016.
  */
 public class Controller {
 
+    private static LoginService loginService = new LoginService();
+
     public static void loginPage(HttpExchange httpExchange) throws IOException {
         sendHttpResultOk(httpExchange, ReadResoures.readResource("login.html"));
     }
 
     public static void page(HttpExchange httpExchange) throws IOException {
+        verifyTockenAcces(httpExchange);
+
+        verifyPermitionUser();
+
+        //TODO modificar el username del html
         sendHttpResultOk(httpExchange, ReadResoures.readResource("page.html"));
     }
 
@@ -36,9 +38,9 @@ public class Controller {
         UserDTO userDTO = (UserDTO) getBody(httpExchange.getRequestBody(),UserDTO.class);
         UserLogin userLogin = new UserLogin(userDTO);
 
-        LoginService loginService = new LoginService();
         try {
             userLogin = loginService.loginUser(userLogin);
+            userDTO.setJwt(loginService.generateJWT(userLogin));
         } catch (LoginError loginError) {
             sendHttpErrorLogin(httpExchange);
         }
@@ -68,5 +70,18 @@ public class Controller {
         String json = IOUtils.toString(new InputStreamReader(bodyStream, "utf-8"));
         Object result = new Gson().fromJson(json, jsonClass);
         return result;
+    }
+
+    private static void verifyTockenAcces(HttpExchange httpExchange) throws IOException {
+        String jwt = httpExchange.getRequestURI().getQuery();
+        try {
+            loginService.validateJWT(jwt);
+        } catch (InvalidUsser invalidUsser) {
+            sendHttpResultOk(httpExchange, ReadResoures.readResource("login.html"));
+        }
+    }
+
+    private static void verifyPermitionUser() {
+        //TODO ver rol si cuarda con url
     }
 }
