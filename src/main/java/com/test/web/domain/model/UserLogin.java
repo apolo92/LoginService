@@ -1,7 +1,10 @@
 package com.test.web.domain.model;
 
 import com.test.web.dto.UserDTO;
+import com.test.web.dto.UserPageDTO;
 import com.test.web.domain.model.constants.Roles;
+
+import java.util.List;
 
 /**
  * Created by alejandro on 29/09/2016.
@@ -10,9 +13,9 @@ public class UserLogin {
 
     private String userName;
     private String password;
-    private Roles role;
+    private List<Roles> role;
 
-    public UserLogin(String userName, String password, Roles role){
+    public UserLogin(String userName, String password, List<Roles> role){
         this.userName=userName;
         this.password=password;
         this.role=role;
@@ -26,6 +29,7 @@ public class UserLogin {
     public UserLogin(UserDTO userDTO) {
         this.userName=userDTO.getUsername();
         this.password=userDTO.getPassword();
+        this.role=userDTO.getRole();
     }
 
     public String getUserName() {
@@ -36,7 +40,7 @@ public class UserLogin {
         return password;
     }
 
-    public Roles getRole() {
+    public List<Roles> getRole() {
         return role;
     }
 }

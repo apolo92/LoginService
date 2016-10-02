@@ -1,6 +1,6 @@
 package com.test.web.domain.factory;
 
-import com.test.web.domain.Repository;
+import com.test.web.domain.services.Repository;
 import com.test.web.repository.RepositoryUsers;
 
 /**

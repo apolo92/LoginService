@@ -1,13 +1,21 @@
 package com.test.web.dto;
 
+import com.test.web.domain.model.constants.Roles;
+
+import java.util.List;
+
 /**
- * Created by alejandro on 30/09/2016.
+ * Created by alejandro on 02/10/2016.
  */
 public class UserDTO {
-    private String username;
+    protected String username;
+    protected List<Roles> role;
     private String password;
-    private String loadPage;
-    private String jwt;
+
+    public UserDTO(String username, List<Roles> role) {
+        this.username=username;
+        this.role=role;
+    }
 
     public String getUsername() {
         return username;
@@ -17,11 +25,7 @@ public class UserDTO {
         return password;
     }
 
-    public void setLoadPage(String loadPage) {
-        this.loadPage = loadPage;
-    }
-
-    public void setJwt(String jwt) {
-        this.jwt = jwt;
+    public List<Roles> getRole() {
+        return role;
     }
 }

@@ -1,6 +1,6 @@
 package com.test.web.repository;
 
-import com.test.web.domain.Repository;
+import com.test.web.domain.services.Repository;
 import com.test.web.domain.model.UserLogin;
 import org.junit.Assert;
 import org.junit.Test;

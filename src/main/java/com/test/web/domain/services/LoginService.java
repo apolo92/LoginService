@@ -1,9 +1,11 @@
-package com.test.web.domain;
+package com.test.web.domain.services;
 
 import com.test.web.domain.factory.FactoryRepository;
 import com.test.web.domain.issues.InvalidUsser;
 import com.test.web.domain.issues.LoginError;
+import com.test.web.domain.issues.PermissionDenied;
 import com.test.web.domain.model.UserLogin;
+import com.test.web.domain.model.constants.Roles;
 import io.jsonwebtoken.*;
 
 import java.util.Calendar;
@@ -23,7 +25,7 @@ public class LoginService {
 
     public UserLogin loginUser(UserLogin user) throws LoginError {
         UserLogin userStorage = repository.searchUserStored(user);
-        if (userStorage == null) {
+        if (userStorage == null || !userStorage.getPassword().equals(user.getPassword())) {
             throw new LoginError();
         }
         return userStorage;
@@ -34,9 +36,9 @@ public class LoginService {
         long t = date.getTimeInMillis();
         Date afterAddingFiveMins = new Date(t + (5 * ONE_MINUTE_IN_MILLIS));
         String jwt = Jwts.builder().setSubject(userStorage.getUserName())
-                        .setExpiration(afterAddingFiveMins)
-                        .signWith(SignatureAlgorithm.HS256, getSignatureKey())
-                        .compact();
+                .setExpiration(afterAddingFiveMins)
+                .signWith(SignatureAlgorithm.HS256, getSignatureKey())
+                .compact();
         return jwt;
     }
 
@@ -45,14 +47,25 @@ public class LoginService {
         return secret.getBytes();
     }
 
-    public void validateJWT(String jwt) throws InvalidUsser {
+    public String validateJWTAmdPermissions(String jwt, String urlAccess) throws InvalidUsser, PermissionDenied {
         try {
-            Jws jwtClaims = Jwts.parser().setSigningKey(getSignatureKey()).parseClaimsJws(jwt);
+            String userToken = Jwts.parser().setSigningKey(getSignatureKey()).parseClaimsJws(jwt).getBody().getSubject();
+
+            UserLogin userStored = repository.searchUserStored(userToken);
+            if (userStored == null) {
+                throw new PermissionDenied();
+            }
+            for (Roles rol : userStored.getRole()) {
+                for (String url :rol.getUrl()){
+                    if (url.equals(urlAccess)) {
+                        return userStored.getUserName();
+                    }
+                }
+            }
+            throw new PermissionDenied();
         } catch (SignatureException e) {
             throw new InvalidUsser();
-        } catch (ExpiredJwtException e ){
-            throw new InvalidUsser();
-        }catch (Exception e){
+        } catch (ExpiredJwtException e) {
             throw new InvalidUsser();
         }
 
