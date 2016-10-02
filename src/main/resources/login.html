@@ -104,7 +104,7 @@
         }
     </style>
     <script type="text/javascript">
-        function foo () {
+        function login () {
             $.ajax({
                 data: JSON.stringify({
                     username: $('#username').val(),
@@ -130,7 +130,7 @@
                     <div class="message" id="incorrectMessage" hidden>Usuario o Contraseña incorrecta</div>
                     <input type="text" id="username" placeholder="username"/>
                     <input type="password" id="password" placeholder="password"/>
-                    <button type="button" onclick="foo()">login</button>
+                    <button type="button" onclick="login()">login</button>
                 </form>
             </div>
         </div>

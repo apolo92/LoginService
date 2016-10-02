@@ -3,7 +3,7 @@ package com.test.web.server;
 import com.sun.net.httpserver.HttpServer;
 import com.test.web.domain.controller.ApiRestController;
 import com.test.web.domain.controller.Controller;
-import com.test.web.domain.factory.FactoryRepository;
+import com.test.web.domain.factory.Factory;
 import com.test.web.domain.model.UserLogin;
 import com.test.web.domain.model.constants.Roles;
 
@@ -46,6 +46,6 @@ public class Server {
         users.add(new UserLogin("user1","user1", role1));
         users.add(new UserLogin("user2","user2", role2));
         users.add(new UserLogin("user3","user3", role3));
-        FactoryRepository.getRepositoryInstance().loadUsers(users);
+        Factory.getRepositoryInstance().loadUsers(users);
     }
 }

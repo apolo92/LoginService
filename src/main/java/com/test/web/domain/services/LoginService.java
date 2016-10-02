@@ -1,12 +1,15 @@
 package com.test.web.domain.services;
 
-import com.test.web.domain.factory.FactoryRepository;
+import com.test.web.domain.factory.Factory;
 import com.test.web.domain.issues.InvalidUsser;
 import com.test.web.domain.issues.LoginError;
 import com.test.web.domain.issues.PermissionDenied;
 import com.test.web.domain.model.UserLogin;
 import com.test.web.domain.model.constants.Roles;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -20,7 +23,7 @@ public class LoginService {
     private Repository repository;
 
     public LoginService() {
-        repository = FactoryRepository.getRepositoryInstance();
+        repository = Factory.getRepositoryInstance();
     }
 
     public UserLogin loginUser(UserLogin user) throws LoginError {

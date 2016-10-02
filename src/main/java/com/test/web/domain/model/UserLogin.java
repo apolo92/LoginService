@@ -1,8 +1,7 @@
 package com.test.web.domain.model;
 
-import com.test.web.dto.UserDTO;
-import com.test.web.dto.UserPageDTO;
 import com.test.web.domain.model.constants.Roles;
+import com.test.web.dto.UserDTO;
 
 import java.util.List;
 
@@ -14,6 +13,7 @@ public class UserLogin {
     private String userName;
     private String password;
     private List<Roles> role;
+    private boolean logout;
 
     public UserLogin(String userName, String password, List<Roles> role){
         this.userName=userName;
@@ -42,5 +42,13 @@ public class UserLogin {
 
     public List<Roles> getRole() {
         return role;
+    }
+
+    public boolean isLogout() {
+        return logout;
+    }
+
+    public void setLogout(boolean logout) {
+        this.logout = logout;
     }
 }

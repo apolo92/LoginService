@@ -1,6 +1,6 @@
 package com.test.web.domain;
 
-import com.test.web.domain.factory.FactoryRepository;
+import com.test.web.domain.factory.Factory;
 import com.test.web.domain.issues.InvalidUsser;
 import com.test.web.domain.issues.LoginError;
 import com.test.web.domain.issues.PermissionDenied;
@@ -25,7 +25,7 @@ public class LoginServiceTest {
     public void setUp() {
         List<Roles> role1 = new ArrayList();
         role1.add(Roles.ROLE1);
-        FactoryRepository.getRepositoryInstance().loadUser(new UserLogin("test","test",role1));
+        Factory.getRepositoryInstance().loadUser(new UserLogin("test","test",role1));
     }
 
     @Test

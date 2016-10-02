@@ -1,8 +1,7 @@
-package com.test.web.domain.utils;
+package com.test.web.domain.controller.utils;
 
 import com.sun.org.apache.bcel.internal.util.ClassLoader;
 import com.test.web.domain.issues.ResourceException;
-import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

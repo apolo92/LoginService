@@ -10,6 +10,7 @@ import java.util.List;
 public class UserPageDTO extends UserDTO {
     private String loadPage;
     private String jwt;
+    private boolean logout;
 
     public UserPageDTO(String username, List<Roles> role){
         super(username, role);
@@ -23,4 +24,11 @@ public class UserPageDTO extends UserDTO {
         this.jwt = jwt;
     }
 
+    public boolean isLogout() {
+        return logout;
+    }
+
+    public void setLogout(boolean logout) {
+        this.logout = logout;
+    }
 }
