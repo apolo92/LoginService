@@ -26,11 +26,13 @@ public class ApiRestController {
                 ControllerUtils.sendHttpResult(httpExchange,new Gson().toJson(dtoUsers).getBytes(),200);
                 break;
             case "POST":
+                ControllerUtils.autenticate(httpExchange);
                 UserLogin userLogin = new UserLogin(dtoUser);
                 Factory.getRepositoryInstance().loadUser(userLogin);
                 ControllerUtils.sendHttpResult(httpExchange,201);
                 break;
             case "PUT":
+                ControllerUtils.autenticate(httpExchange);
                 Factory.getRepositoryInstance().modifyUser(dtoUser);
                 ControllerUtils.sendHttpResult(httpExchange,200);
                 break;

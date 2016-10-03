@@ -37,6 +37,11 @@ public class ReadResoures {
     }
 
     private static Path getPath(String resouceName) throws URISyntaxException {
+        String path = ClassLoader.getSystemResource(resouceName).toURI().toString();
+        // differentiate is compile jar or IDE run the path is different
+        if (path.startsWith("jar")){
+            return Paths.get(resouceName);
+        }
         return Paths.get(ClassLoader.getSystemResource(resouceName).toURI());
     }
 }
