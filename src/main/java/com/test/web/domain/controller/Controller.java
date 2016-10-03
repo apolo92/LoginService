@@ -22,8 +22,9 @@ public class Controller {
 
     public static void page(HttpExchange httpExchange) throws IOException {
         String username = ControllerUtils.autenticate(httpExchange);
-
-        ControllerUtils.sendHttpResult(httpExchange, ReadResoures.readResourceAndInsertName("page.html",username),200);
+        if (username !=null) {
+            ControllerUtils.sendHttpResult(httpExchange, ReadResoures.readResourceAndInsertName("page.html", username), 200);
+        }
     }
 
     public static void loginUser(HttpExchange httpExchange) throws IOException {

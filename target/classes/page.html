@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script type="text/javascript">
+        function logout () {
+            $.ajax({
+                data: JSON.stringify({
+                    jwt: localStorage.getItem("tokenJWT")
+                }),
+                url:"http://localhost:8000/users/logout", //the page containing php script
+                type: "POST", //request type
+                dataType: 'json',
+                success:function(data){
+                    window.location.replace(data.loadPage);
+                }
+            });
+        }
+    </script>
 </head>
 <body>
     <h1>Hello {USER_NAME}</h1>
-    <button>Loggout</button>
+    <button onclick="logout()">Loggout</button>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.test.web.repository;
 import com.test.web.domain.model.UserLogin;
 import com.test.web.domain.services.Repository;
 import com.test.web.dto.UserAPIDTO;
+import com.test.web.repository.issues.UserNotExist;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,11 @@ public class RepositoryUsers implements Repository {
 
     @Override
     public UserLogin searchUserStored(String userName) {
-        return userStorege.get(userName);
+        UserLogin user = userStorege.get(userName);
+        if (user==null){
+            throw new UserNotExist("User not found in Database");
+        }
+        return user;
     }
 
     @Override
@@ -47,7 +52,7 @@ public class RepositoryUsers implements Repository {
     }
 
     @Override
-    public void modifyUser(UserAPIDTO userLogin) {
+    public void modifyUser(UserAPIDTO userLogin) throws UserNotExist {
         UserLogin userStored = searchUserStored(userLogin.getUsername());
         //New user because password is not modify
         UserLogin userModified = new UserLogin(userLogin.getReplaceUserName(),userStored.getPassword(),userLogin.getRole());

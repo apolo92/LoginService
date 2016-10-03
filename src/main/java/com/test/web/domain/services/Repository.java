@@ -2,6 +2,7 @@ package com.test.web.domain.services;
 
 import com.test.web.domain.model.UserLogin;
 import com.test.web.dto.UserAPIDTO;
+import com.test.web.repository.issues.UserNotExist;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface Repository {
 
     public List<UserLogin> searchAllUsersStored();
 
-    public void modifyUser(UserAPIDTO userLogin);
+    public void modifyUser(UserAPIDTO userLogin) throws UserNotExist;
 }

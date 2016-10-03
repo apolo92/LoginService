@@ -15,6 +15,11 @@ public class UserAPIDTO extends UserDTO {
         super(username, role);
     }
 
+    public UserAPIDTO(String username, List<Roles> role,String replaceUserName) {
+        super(username, role);
+        this.replaceUserName=replaceUserName;
+    }
+
     public String getReplaceUserName() {
         return replaceUserName;
     }

@@ -28,8 +28,8 @@ public class LoginService {
 
     public UserLogin loginUser(UserLogin user) throws LoginError {
         UserLogin userStorage = repository.searchUserStored(user);
-        if (userStorage == null || !userStorage.getPassword().equals(user.getPassword())) {
-            throw new LoginError();
+        if (!userStorage.getPassword().equals(user.getPassword())) {
+            throw new LoginError("Login error password incorrect");
         }
         return userStorage;
     }
@@ -51,13 +51,8 @@ public class LoginService {
     }
 
     public String validateJWTAmdPermissions(String jwt, String urlAccess) throws InvalidUsser, PermissionDenied {
-        try {
-            String userToken = Jwts.parser().setSigningKey(getSignatureKey()).parseClaimsJws(jwt).getBody().getSubject();
-
+            String userToken = validateJwt(jwt);
             UserLogin userStored = repository.searchUserStored(userToken);
-            if (userStored == null) {
-                throw new PermissionDenied();
-            }
             for (Roles rol : userStored.getRole()) {
                 for (String url :rol.getUrl()){
                     if (url.equals(urlAccess)) {
@@ -65,12 +60,18 @@ public class LoginService {
                     }
                 }
             }
-            throw new PermissionDenied();
-        } catch (SignatureException e) {
-            throw new InvalidUsser();
-        } catch (ExpiredJwtException e) {
-            throw new InvalidUsser();
-        }
+            throw new PermissionDenied("User not have permission to acces this page");
+    }
 
+    private String validateJwt(String jwt) throws InvalidUsser {
+        try {
+        return Jwts.parser().setSigningKey(getSignatureKey()).parseClaimsJws(jwt).getBody().getSubject();
+        } catch (SignatureException e) {
+            throw new InvalidUsser("Token no valid");
+        } catch (ExpiredJwtException e) {
+            throw new InvalidUsser("Token expired");
+        }catch (Exception e){
+            throw new InvalidUsser("Token no valid");
+        }
     }
 }

@@ -17,6 +17,8 @@ import java.io.OutputStream;
  */
 public class ControllerUtils {
 
+    private static final String URL_ACCESS = "http://localhost:8000";
+
     public static byte[] getBytesDTOObject(Object userLogin) {
         return new Gson().toJson(userLogin).getBytes();
     }
@@ -40,9 +42,9 @@ public class ControllerUtils {
         os.close();
     }
 
-    public static String autenticate(HttpExchange httpExchange) throws IOException {
+    public static String autenticate(HttpExchange httpExchange) throws IOException{
         String jwt = httpExchange.getRequestURI().getQuery();
-        String urlAccess ="http://localhost:8000";
+        String urlAccess = URL_ACCESS;
         urlAccess += httpExchange.getRequestURI().getPath();
         String username = null;
 

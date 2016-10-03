@@ -1,4 +1,4 @@
-package com.test.web.domain;
+package com.test.web.domain.services;
 
 import com.test.web.domain.factory.Factory;
 import com.test.web.domain.issues.InvalidUsser;
@@ -40,7 +40,7 @@ public class LoginServiceTest {
     @Test(expected = LoginError.class)
     public void verifyUserAndReturnErrorPage() throws LoginError {
         LoginService login = new LoginService();
-        UserLogin user = new UserLogin("test2", "test2", null);
+        UserLogin user = new UserLogin("test", "test2", null);
 
         login.loginUser(user);
     }
@@ -60,5 +60,13 @@ public class LoginServiceTest {
         String jwt = login.generateJWT(user);
         jwt += "error";
         login.validateJWTAmdPermissions(jwt,"http://localhost:8000/page1");
+    }
+
+    @Test(expected = PermissionDenied.class)
+    public void generateInvalidJWTAndReturnPermisionDenied() throws InvalidUsser, PermissionDenied {
+        LoginService login = new LoginService();
+
+        String jwt = login.generateJWT(user);
+        login.validateJWTAmdPermissions(jwt,"http://localhost:8000/page2");
     }
 }

@@ -19,9 +19,9 @@ public class ReadResoures {
         try {
             return Files.readAllBytes(getPath(resouceName));
         } catch (IOException e) {
-            throw new ResourceException(e);
+            throw new ResourceException("Error in load resource:"+resouceName);
         } catch (URISyntaxException e) {
-            throw new ResourceException(e);
+            throw new ResourceException("Error in load resource:"+resouceName);
         }
     }
 
@@ -30,9 +30,9 @@ public class ReadResoures {
             List<String> htmlString = Files.readAllLines(getPath(resouceName));
             return htmlString.stream().map(e -> e.toString()).reduce("", String::concat).replace("{USER_NAME}",userName).getBytes();
         } catch (IOException e) {
-            throw new ResourceException(e);
+            throw new ResourceException("Error in load resource:"+resouceName);
         } catch (URISyntaxException e) {
-            throw new ResourceException(e);
+            throw new ResourceException("Error in load resource:"+resouceName);
         }
     }
 
