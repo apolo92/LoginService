@@ -15,3 +15,24 @@ This application Java is a server HTTPServer , that offers login service API-RES
    - user2 : user2 : ROLE2 -> access page2
    - user3 : user3 : ROLE3 -> access page3
    - Admin : Admin : ADMIN -> access in all pages
+   
+#API-REST
+
+-The url acces is localhost:8000/users?(token access login page)
+
+-JSON POST service :
+
+   {
+       "username":"alex",
+       "password":"1234",
+       "role":[ROLE1]
+   }
+   
+-JSON PUT service :
+
+   {
+       "username":"alex",
+       "password":"1234",
+       "role":[ROLE1,ROLE2],
+       "replaceUserName":"alex2"
+   }
